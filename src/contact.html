@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Notice Board - Contact</title>
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>University Notice Board</h1>
+      <p>Stay Updated with Latest University Information</p>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="notices.html">Notices</a></li>
+      <li><a href="exams.html">Exams</a></li>
+      <li><a href="admissions.html">Admissions</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="content-section">
+      <h2>Contact Information</h2>
+      <div class="contact-info">
+        <div class="contact-card">
+          <h3>Main Office</h3>
+          <p><strong>Address:</strong></p>
+          <p>123 University Avenue<br>
+          Education City, EC 12345<br>
+          United States</p>
+          <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+          <p><strong>Email:</strong> <a href="mailto:info@university.edu">info@university.edu</a></p>
+        </div>
+
+        <div class="contact-card">
+          <h3>Admissions Office</h3>
+          <p><strong>Location:</strong> Administration Building, Room 101</p>
+          <p><strong>Phone:</strong> +1 (555) 123-4568</p>
+          <p><strong>Email:</strong> <a href="mailto:admissions@university.edu">admissions@university.edu</a></p>
+          <p><strong>Hours:</strong> Mon-Fri, 9:00 AM - 5:00 PM</p>
+        </div>
+
+        <div class="contact-card">
+          <h3>Student Services</h3>
+          <p><strong>Location:</strong> Student Center, 2nd Floor</p>
+          <p><strong>Phone:</strong> +1 (555) 123-4569</p>
+          <p><strong>Email:</strong> <a href="mailto:studentservices@university.edu">studentservices@university.edu</a></p>
+          <p><strong>Hours:</strong> Mon-Fri, 8:00 AM - 6:00 PM</p>
+        </div>
+
+        <div class="contact-card">
+          <h3>IT Support</h3>
+          <p><strong>Location:</strong> Library Building, Ground Floor</p>
+          <p><strong>Phone:</strong> +1 (555) 123-4570</p>
+          <p><strong>Email:</strong> <a href="mailto:itsupport@university.edu">itsupport@university.edu</a></p>
+          <p><strong>Hours:</strong> Mon-Fri, 8:00 AM - 8:00 PM</p>
+        </div>
+
+        <div class="contact-card">
+          <h3>Financial Aid</h3>
+          <p><strong>Location:</strong> Administration Building, Room 205</p>
+          <p><strong>Phone:</strong> +1 (555) 123-4571</p>
+          <p><strong>Email:</strong> <a href="mailto:financialaid@university.edu">financialaid@university.edu</a></p>
+          <p><strong>Hours:</strong> Mon-Fri, 9:00 AM - 4:00 PM</p>
+        </div>
+
+        <div class="contact-card">
+          <h3>Library</h3>
+          <p><strong>Location:</strong> Central Library Building</p>
+          <p><strong>Phone:</strong> +1 (555) 123-4572</p>
+          <p><strong>Email:</strong> <a href="mailto:library@university.edu">library@university.edu</a></p>
+          <p><strong>Hours:</strong> Mon-Fri, 7:00 AM - 10:00 PM</p>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h2>Send Us a Message</h2>
+        <form action="#" method="post">
+          <div class="form-group">
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone">
+          </div>
+
+          <div class="form-group">
+            <label for="department">Department</label>
+            <select id="department" name="department">
+              <option value="">Select a department</option>
+              <option value="admissions">Admissions</option>
+              <option value="student-services">Student Services</option>
+              <option value="it-support">IT Support</option>
+              <option value="financial-aid">Financial Aid</option>
+              <option value="library">Library</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject *</label>
+            <input type="text" id="subject" name="subject" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 University Notice Board. All rights reserved.</p>
+    <p><a href="contact.html">Contact Us</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+  </footer>
+</body>
+</html>
