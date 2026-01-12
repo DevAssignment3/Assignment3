@@ -1,0 +1,26 @@
+{
+  "name": "assignment3",
+  "version": "1.0.0",
+  "description": "University Digital Notice Board",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevAssignment3/Assignment3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DevAssignment3/Assignment3/issues"
+  },
+  "homepage": "https://github.com/DevAssignment3/Assignment3#readme",
+  "devDependencies": {
+    "htmlhint": "^1.8.0",
+    "parcel": "^2.16.3",
+    "stylelint": "^16.26.1",
+    "stylelint-config-standard": "^39.0.1"
+  }
+}

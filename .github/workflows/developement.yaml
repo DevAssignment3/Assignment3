@@ -1,0 +1,89 @@
+name: Development Pipeline
+
+on:
+  push:
+    branches: 
+      - develop
+  pull_request:
+    branches:  
+      - develop
+    types: 
+      - opened
+      - synchronize
+
+jobs:
+  linting-job:
+    name:  Linting HTML & CSS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Starting Linting Job
+        run: echo "Starting Linting of HTML & CSS Files"
+      
+      - name: Clone Repo on the Runner
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version:  "18"
+      
+      - name: Install Dev Dependencies
+        run: npm install
+      
+      - name: Lint HTML Files
+        run: npx htmlhint "src/**/*.html"
+      
+      - name: Lint CSS Files
+        run: npx stylelint "styles/**/*.css"
+
+  build-job: 
+    name: Build Website
+    runs-on: ubuntu-latest
+    needs: linting-job
+    steps:  
+      - name: Build Job Starting
+        run: echo "Build Job Going to Start"
+      
+      - name: Clone Repo
+        uses: actions/checkout@v4
+      
+      - name:  Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      
+      - name: Install Dependencies
+        run: npm install
+      
+      - name: Build Website with Parcel
+        run: npx parcel build "./src/index.html" "./src/notices.html" "./src/exams.html" "./src/admissions.html" "./src/contact.html" --dist-dir "./dist" --public-url "./" --no-cache
+      
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dev-build
+          path: dist/
+
+  image-build-job: 
+    name: Docker Image Build & Push
+    needs: build-job
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps: 
+      - name: Clone Repo
+        uses: actions/checkout@v4
+      
+      - name:  Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name:  Build Docker Image
+        run: docker image build -t ${{ secrets.DOCKERHUB_USERNAME }}/uni-notice-board:dev . 
+      
+      - name: List Docker Images
+        run: docker image ls
+      
+      - name:  Push Image to Docker Hub
+        run: docker image push ${{ secrets.DOCKERHUB_USERNAME }}/uni-notice-board:dev

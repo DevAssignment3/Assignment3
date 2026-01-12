@@ -1,0 +1,114 @@
+name: Release Pipeline
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  linting-job:
+    name: Linting HTML & CSS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Starting Linting Job
+        run: echo "Starting Linting of HTML & CSS Files"
+      
+      - name: Clone Repo on the Runner
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      
+      - name: Install Dev Dependencies
+        run: npm install
+      
+      - name: Lint HTML Files
+        run: npx htmlhint "src/**/*.html"
+      
+      - name: Lint CSS Files
+        run: npx stylelint "styles/**/*.css"
+
+  build-job: 
+    name: Build Website
+    runs-on: ubuntu-latest
+    needs: linting-job
+    steps:  
+      - name: Build Job Starting
+        run: echo "Build Job Going to Start"
+      
+      - name: Clone Repo
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      
+      - name: Install Dependencies
+        run: npm install
+      
+      - name: Build Website with Parcel
+        run: npx parcel build "./src/index.html" "./src/notices.html" "./src/exams.html" "./src/admissions.html" "./src/contact.html" --dist-dir "./dist" --public-url "./" --no-cache
+      
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-build
+          path: dist/
+
+  image-build-job: 
+    name: Docker Image Build & Push
+    needs: build-job
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Clone Repo
+        uses: actions/checkout@v4
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Extract Version Tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
+      - name: Build Docker Image
+        run: docker image build -t ${{ secrets.DOCKERHUB_USERNAME }}/uni-notice-board:${{ steps.get_version.outputs.VERSION }} -t ${{ secrets.DOCKERHUB_USERNAME }}/uni-notice-board:stable .
+      
+      - name: List Docker Images
+        run: docker image ls
+      
+      - name: Push Version Tagged Image
+        run: docker image push ${{ secrets.DOCKERHUB_USERNAME }}/uni-notice-board:${{ steps.get_version.outputs.VERSION }}
+      
+      - name: Push Stable Tag
+        run: docker image push ${{ secrets.DOCKERHUB_USERNAME }}/uni-notice-board:stable
+
+  create-release:
+    name: Create GitHub Release
+    needs: image-build-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+      
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-build
+          path: ./release-build
+      
+      - name: Create Release Archive
+        run: tar -czf release-build.tar.gz -C release-build .
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release-build.tar.gz
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
