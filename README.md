@@ -122,10 +122,10 @@ The project uses a multi-stage Docker build:
 | Name | Role | Page Responsibility |
 |------|------|---------------------|
 | Team Lead | Lead | index.html |
-| Member 1 | Member | notices.html |
-| Member 2 | Member | exams.html |
-| Member 3 | Member | admissions.html |
-| Member 4 | Member | contact.html |
+| Hassan Hanan Khalid | Member | exams.html |
+| Musa Qureshi | Member | notice.html |
+| Khawaja faheem ud din | Member | admissions.html |
+| Musab Abdullah Shan | Member | contact.html |
 
 ## 📝 Branching Strategy
 
