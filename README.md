@@ -121,7 +121,7 @@ The project uses a multi-stage Docker build:
 
 | Name | Role | Page Responsibility |
 |------|------|---------------------|
-| Team Lead | Lead | index.html |
+| Ali Raza | Team Lead | index.html |
 | Hassan Hanan Khalid | Member | exams.html |
 | Musa Qureshi | Member | notice.html |
 | Khawaja faheem ud din | Member | admissions.html |
