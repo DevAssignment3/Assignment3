@@ -1,0 +1,50 @@
+name: CD Pipeline - Deploy to Render
+
+on:
+  push:
+    branches: 
+      - develop
+  workflow_run:
+    workflows: ["Development Pipeline"]
+    types:
+      - completed
+    branches:
+      - develop
+
+jobs:
+  deploy-to-render:
+    name: Deploy to Render
+    runs-on: ubuntu-latest
+    environment: development
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' }}
+    
+    steps:
+      - name:  Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name:  Pull Latest Docker Image
+        run: |
+          echo "Pulling latest image from Docker Hub"
+          docker pull ${{ secrets. DOCKERHUB_USERNAME }}/uni-notice-board:dev
+      
+      - name:  Verify Docker Image
+        run: |
+          echo "Verifying Docker image"
+          docker image ls ${{ secrets.DOCKERHUB_USERNAME }}/uni-notice-board:dev
+      
+      - name:  Trigger Render Deployment
+        run:  |
+          echo "Triggering deployment to Render"
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+      
+      - name: Deployment Status
+        run: |
+          echo "Deployment triggered successfully"
+          echo "Check Render dashboard for deployment status"
+          echo "Service will be available in 2-3 minutes"
