@@ -31,12 +31,12 @@ jobs:
       - name:  Pull Latest Docker Image
         run: |
           echo "Pulling latest image from Docker Hub"
-          docker pull ${{ secrets. DOCKERHUB_USERNAME }}/notice-board:dev
+          docker pull ${{ secrets. DOCKERHUB_USERNAME }}/uni-notice-board:latest
       
       - name:  Verify Docker Image
         run: |
           echo "Verifying Docker image"
-          docker image ls ${{ secrets.DOCKERHUB_USERNAME }}/notice-board:dev
+          docker image ls ${{ secrets.DOCKERHUB_USERNAME }}/uni-notice-board:latest
       
       - name:  Trigger Render Deployment
         run:  |
